@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "0E0FAC7B-17FB-45A0-BAD7-19256E21C852",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "XCTSharkMacroTests",
+        "name" : "XCTSharkMacroTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "XCTSharkUnitTests",
+        "name" : "XCTSharkUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
