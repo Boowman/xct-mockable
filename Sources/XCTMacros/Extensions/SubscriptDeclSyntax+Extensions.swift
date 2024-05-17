@@ -10,11 +10,13 @@ import SwiftSyntax
 
 extension SubscriptDeclSyntax {
     var hasGetter: Bool {
-        return AccessorDeclListSyntax(self.accessorBlock?.accessors)?.hasGetter ?? false
+        return AccessorDeclListSyntax(self.accessorBlock?.accessors)?
+            .hasGetter ?? false
     }
     
     var hasSetter: Bool {
-        return AccessorDeclListSyntax(self.accessorBlock?.accessors)?.hasSetter ?? false
+        return AccessorDeclListSyntax(self.accessorBlock?.accessors)?
+            .hasSetter ?? false
     }
     
     var isOptional: Bool {
@@ -23,6 +25,13 @@ extension SubscriptDeclSyntax {
     
     var getReturnType: String {
         return self.returnClause.type.trimmedDescription
+    }
+    
+    var getEffects: String? {
+        return AccessorDeclListSyntax(self.accessorBlock?.accessors)?
+            .first?
+            .effectSpecifiers?
+            .trimmedDescription
     }
     
     func getParameters() -> [String] {

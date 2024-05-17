@@ -31,9 +31,9 @@ final class XCTMacroPropertiesTests: XCTMacroBaseTests {
                 static var description: String {
                     get {
                         return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "var description: String",
-                                                                                          members: [])) { invocation in
-
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {
@@ -76,9 +76,9 @@ final class XCTMacroPropertiesTests: XCTMacroBaseTests {
                 var product: Product {
                     get {
                         return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "var product: Product",
-                                                                                          members: [])) { invocation in
-
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {
@@ -123,9 +123,9 @@ final class XCTMacroPropertiesTests: XCTMacroBaseTests {
                 var productTitle: String? {
                     get {
                         return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "var productTitle: String?",
-                                                                                          members: [])) { invocation in
-
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {
@@ -172,9 +172,9 @@ final class XCTMacroPropertiesTests: XCTMacroBaseTests {
                 var productDescription: String {
                     get {
                         return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "var productDescription: String",
-                                                                                          members: [])) { invocation in
-
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {
@@ -196,37 +196,93 @@ final class XCTMacroPropertiesTests: XCTMacroBaseTests {
         #endif
     }
     
-//    func test_async_get() throws {
-//        #if canImport(XCTMacros)
-//        assertMacroExpansion(
-//            """
-//            @Mockable
-//            protocol PropertiesProtocol {
-//                static var description: String { get }
-//            
-//                var product: Product { get set }
-//                var productTitle: String? { get set }
-//                var productDescription: String { get }
-//            }
-//            """,
-//            expandedSource: """
-//            protocol PropertiesProtocol {
-//                static var description: String { get }
-//            
-//                var product: Product { get set }
-//                var productTitle: String? { get set }
-//                var productDescription: String { get }
-//            }
-//
-//            class PropertiesProtocolMock: PropertiesProtocol, XCTMockProtocol {
-//                public static var context = XCTMockable.ContextContainer()
-//                public var context = XCTMockable.ContextContainer()
-//            }
-//            """,
-//            macros: mockableMacroTest
-//        )
-//        #else
-//        throw XCTSkip("macros are only supported when running tests for the host platform")
-//        #endif
-//    }
+    func test_async_get() throws {
+        #if canImport(XCTMacros)
+        assertMacroExpansion(
+            """
+            @Mockable
+            protocol PropertiesProtocol {
+                var isAvailable: Bool { get async }
+            }
+            """,
+            expandedSource: """
+            protocol PropertiesProtocol {
+                var isAvailable: Bool { get async }
+            }
+
+            class PropertiesProtocolMock: PropertiesProtocol, XCTMockProtocol {
+                public static var context = XCTMockable.ContextContainer()
+                public var context = XCTMockable.ContextContainer()
+            
+                var isAvailable: Bool {
+                    get async {
+                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "var isAvailable: Bool",
+                                                                                     members: [])) { invocation in
+                            self.context.recordInvocation(invocation)
+            
+                            let result = self.context.stubbing.implementation(for: invocation)
+
+                            if let result = result {
+                                if let result = result as? Bool {
+                                    return result
+                                }
+                            }
+
+                            fatalError("Failed to find a suitable result type.", file: #file, line: #line)
+                        }
+                    }
+                }
+            }
+            """,
+            macros: mockableMacroTest
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+
+    func test_async_throws_get() throws {
+        #if canImport(XCTMacros)
+        assertMacroExpansion(
+            """
+            @Mockable
+            protocol PropertiesProtocol {
+                var isAvailable: Bool { get async throws }
+            }
+            """,
+            expandedSource: """
+            protocol PropertiesProtocol {
+                var isAvailable: Bool { get async throws }
+            }
+
+            class PropertiesProtocolMock: PropertiesProtocol, XCTMockProtocol {
+                public static var context = XCTMockable.ContextContainer()
+                public var context = XCTMockable.ContextContainer()
+            
+                var isAvailable: Bool {
+                    get async throws {
+                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "var isAvailable: Bool",
+                                                                                     members: [])) { invocation in
+                            self.context.recordInvocation(invocation)
+
+                            let result = self.context.stubbing.implementation(for: invocation)
+
+                            if let result = result {
+                                if let result = result as? Bool {
+                                    return result
+                                }
+                            }
+
+                            fatalError("Failed to find a suitable result type.", file: #file, line: #line)
+                        }
+                    }
+                }
+            }
+            """,
+            macros: mockableMacroTest
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

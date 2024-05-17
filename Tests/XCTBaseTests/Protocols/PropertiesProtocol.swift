@@ -12,6 +12,8 @@ import XCTMockable
 protocol PropertiesProtocol {
     static var description: String { get }
     
+    var isAvailable: Bool { get async throws }
+    
     var product: Product { get set }
     var productTitle: String? { get set }
     var productDescription: String { get }

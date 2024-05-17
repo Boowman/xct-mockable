@@ -15,7 +15,7 @@ extension VariableDeclSyntax {
     }
     
     var hasSetter: Bool {
-        return AccessorDeclListSyntax( self.bindings.first?.accessorBlock?.accessors)?
+        return AccessorDeclListSyntax(self.bindings.first?.accessorBlock?.accessors)?
             .hasSetter ?? false
     }
     
@@ -25,6 +25,10 @@ extension VariableDeclSyntax {
     
     var getReturnType: String? {
         return self.bindings.first?.typeAnnotation?.type.trimmedDescription
+    }
+    
+    var getEffects: String? {
+        return AccessorDeclListSyntax(self.bindings.first?.accessorBlock?.accessors)?.first?.effectSpecifiers?.trimmedDescription
     }
     
     var isReturningOptional: Bool {

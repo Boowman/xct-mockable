@@ -15,6 +15,10 @@ public struct MockableMacro: PeerMacro {
             return []
         }
         
+        guard !protocolDecl.memberBlock.members.isEmpty else {
+            throw XCTErrors.noMembersFound
+        }
+        
         return try XCTMacroFactory(protocolDecl: protocolDecl, node: node).build()
     }
 }
