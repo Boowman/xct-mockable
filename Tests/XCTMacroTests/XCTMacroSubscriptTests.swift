@@ -30,10 +30,10 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
 
                 subscript(index: Int) -> String {
                     get {
-                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscriptindex: Int: String",
-                                                                                          members: [])) { invocation in
-
+                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscript(index: Int): String",
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {
@@ -77,10 +77,10 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
 
                 subscript(key: String) -> Int {
                     get {
-                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscriptkey: String: Int",
-                                                                                          members: [])) { invocation in
-
+                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscript(key: String): Int",
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {
@@ -122,10 +122,57 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
             
                 subscript(product: Product) -> Product? {
                     get {
-                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscriptproduct: Product: Product?",
-                                                                                          members: [])) { invocation in
-
+                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscript(product: Product): Product?",
+                                                                                     members: [])) { invocation in
                             self.context.recordInvocation(invocation)
+            
+                            let result = self.context.stubbing.implementation(for: invocation)
+
+                            if let result = result {
+                                if let result = result as? Product {
+                                    return result
+                                }
+
+                                return nil
+                            }
+
+                            fatalError("Failed to find a suitable result type.", file: #file, line: #line)
+                        }
+                    }
+                }
+            }
+            """,
+            macros: mockableMacroTest
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func test_async_throws_get() throws {
+        #if canImport(XCTMacros)
+        assertMacroExpansion(
+            """
+            @Mockable
+            protocol PropertiesProtocol {
+                subscript(id: String, product: Product) -> Product? { get async throws }
+            }
+            """,
+            expandedSource: """
+            protocol PropertiesProtocol {
+                subscript(id: String, product: Product) -> Product? { get async throws }
+            }
+
+            class PropertiesProtocolMock: PropertiesProtocol, XCTMockProtocol {
+                public static var context = XCTMockable.ContextContainer()
+                public var context = XCTMockable.ContextContainer()
+            
+                subscript(id: String, product: Product) -> Product? {
+                    get async throws {
+                        return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "subscript(id: String, product: Product): Product?",
+                                                                                     members: [])) { invocation in
+                            self.context.recordInvocation(invocation)
+
                             let result = self.context.stubbing.implementation(for: invocation)
 
                             if let result = result {

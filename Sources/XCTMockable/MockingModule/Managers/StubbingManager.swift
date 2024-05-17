@@ -7,22 +7,15 @@
 
 // MARK: Stubbing Calls
 
-public func givenSwift< DeclarationType: Declaration,InvocationType, ReturnType>(
-    _ mockable: Mockable<
-    DeclarationType,
-    InvocationType,
-    ReturnType
+public func givenSwift<DeclarationType: Declaration,InvocationType, ReturnType>(
+    _ mockable: Mockable<DeclarationType, InvocationType, ReturnType
     >
 ) -> StubbingManager<DeclarationType, InvocationType, ReturnType> {
     return given(mockable)
 }
 
 public func given<DeclarationType: Declaration,InvocationType,ReturnType>(
-    _ mockable: Mockable<
-    DeclarationType,
-    InvocationType,
-    ReturnType
-    >
+    _ mockable: Mockable<DeclarationType, InvocationType, ReturnType>
 ) -> StubbingManager<DeclarationType, InvocationType,ReturnType> {
     return StubbingManager(context: mockable.context, invocation: mockable.invocation)
 }
@@ -36,16 +29,18 @@ public func given<DeclarationType: Declaration,InvocationType,ReturnType>(
 public func given<ReturnType>(
     _ declaration: @autoclosure () throws -> ReturnType
 ) -> StubbingManager<XCTMockable.VariableDeclaration, Any?, ReturnType> {
-    let invocations = InvocationsRecorder().startRecording {
-        _ = try? declaration()
-    }
-    
-    guard let record = invocations.result else {
-        preconditionFailure("Failed to get the records.")
-    }
-    
-    return StubbingManager(context: record.context,
-                           invocation: record.invocation)
+        let invocations = InvocationsRecorder().startRecording {
+            _ = try? declaration()
+        }
+        
+        guard let record = invocations.result else {
+            preconditionFailure("Failed to get the records.")
+        }
+        
+        return StubbingManager(
+            context: record.context,
+            invocation: record.invocation
+        )
 }
 
 // MARK: Protocol Definition

@@ -41,11 +41,13 @@ internal final class GetterMapper {
         let parametersList = member.getParameters().joined(separator: ", ")
         let returnType = member.getReturnType
         
-        let definition = "\(subscriptKeyword)\(parametersList): \(returnType)"
+        let definition = "\(subscriptKeyword)(\(parametersList)): \(returnType)"
+        let effect = member.getEffects ?? ""
         
         return mapGetterBlock(
             definition: definition,
             type: returnType,
+            effects: effect,
             optional: member.isOptional)
     }
     
@@ -58,20 +60,24 @@ internal final class GetterMapper {
         else { return "" }
         
         let definition = "\(varKeyword) \(name): \(type)"
+        let effect = member.getEffects ?? ""
         
         return mapGetterBlock(
             definition: definition,
             type: type,
+            effects: effect,
             optional: member.isReturningOptional)
     }
     
-    private func mapGetterBlock(definition: String, type: String, optional: Bool) -> String {
-        return """
-        \(getterKeyword) {
-            return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "\(definition)",
-                                                                              members: [])) { invocation in
+    private func mapGetterBlock(definition: String, type: String, effects: String, optional: Bool) -> String {
+        let declaration = effects.isEmpty ? "\(getterKeyword)" : "\(getterKeyword) \(effects)"
         
+        return """
+        \(declaration) {
+            return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "\(definition)",
+                                                                         members: [])) { invocation in
                 self.context.recordInvocation(invocation)
+        
                 let result = self.context.stubbing.implementation(for: invocation)
 
                 \(getResultBlock(returnType: type, optional: optional))

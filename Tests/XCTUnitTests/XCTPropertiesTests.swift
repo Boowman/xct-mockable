@@ -51,4 +51,18 @@ final class XCTPropertiesTests: XCTBaseTests {
         // Assert
         XCTAssertNil(result)
     }
+  
+    ///
+    /// MARK: W.I.P
+    ///
+//    func test_async_isAvailability() async throws {
+//        // Arrange
+//        given(try await propertiesMock.isAvailable).willReturn(true)
+//
+//        // Act
+//        let result = try await propertiesMock.isAvailable
+//        
+//        // Assert
+//        XCTAssertTrue(result)
+//    }
 }
