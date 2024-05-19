@@ -9,9 +9,12 @@ import Foundation
 import SwiftSyntax
 
 final class XCTMacroFactory {
-    
     private let protocolDecl: ProtocolDeclSyntax
     private let node: AttributeSyntax
+    
+    private let mockClassId: String = "mockClassId"
+    private var className: String = ""
+    private var protocolName: String = ""
     
     init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
         self.protocolDecl = protocolDecl
@@ -19,23 +22,37 @@ final class XCTMacroFactory {
     }
     
     func build() throws -> [DeclSyntax] {
-        let className = protocolDecl.name.text
-        let memberBlocks = getMemberBlocks()
+        className = "\(protocolDecl.name.text)Mock"
+        protocolName = protocolDecl.name.text
+        
+        var inheritanceTypes: [String] = protocolDecl.getInheritanceTypes
+        inheritanceTypes.insert(protocolName, at: 0)
+        inheritanceTypes.insert("XCTMockProtocol", at: 1)
+        
+        let inheritanceText = inheritanceTypes.joined(separator: ", ")
+
+        var attributes = ""
+        if protocolDecl.hasAttributes {
+            attributes += protocolDecl.getAttributes
+        }
         
         let result =
         """
-        class \(className)Mock: \(className), XCTMockProtocol {
+        \(attributes)
+        class \(className): \(inheritanceText) {
+            public var \(mockClassId) = UUID()
+        
             public static var context = XCTMockable.ContextContainer()
             public var context = XCTMockable.ContextContainer()
             
-            \(memberBlocks)
+            \(getMemberImplementations())\(getInheritanceImplementations())
         }
         """
         
         return [DeclSyntax(stringLiteral: result)]
     }
     
-    private func getMemberBlocks() -> String {
+    private func getMemberImplementations() -> String {
         var members = ""
         
         for (index, item) in protocolDecl.memberBlock.members.enumerated() {
@@ -52,5 +69,20 @@ final class XCTMacroFactory {
         }
         
         return members
+    }
+    
+    private func getInheritanceImplementations() -> String {
+        var inheritanceResult = ""
+        
+        if protocolDecl.doesContainInheritance(inheritance: .equatable) {
+            inheritanceResult += """
+            \n
+            static func == (lhs: \(className), rhs: \(className)) -> Bool {
+                return lhs.\(mockClassId) == rhs.\(mockClassId)
+            }
+            """
+        }
+        
+        return inheritanceResult
     }
 }

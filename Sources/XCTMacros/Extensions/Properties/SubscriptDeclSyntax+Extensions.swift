@@ -34,6 +34,10 @@ extension SubscriptDeclSyntax {
             .trimmedDescription
     }
     
+    var getModifiers: String {
+        return self.modifiers.trimmedDescription
+    }
+    
     func getParameters() -> [String] {
         return self.parameterClause.parameters.compactMap {
             $0.trimmedDescription.replacingOccurrences(of: ",",with: "")

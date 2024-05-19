@@ -25,6 +25,8 @@ final class XCTMacroInitTests: XCTMacroBaseTests {
             }
 
             class InitProtocolMock: InitProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -54,6 +56,8 @@ final class XCTMacroInitTests: XCTMacroBaseTests {
             }
 
             class InitProtocolMock: InitProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 

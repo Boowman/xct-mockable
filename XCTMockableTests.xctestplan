@@ -15,15 +15,15 @@
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "XCTSharkMacroTests",
-        "name" : "XCTSharkMacroTests"
+        "identifier" : "XCTMacroTests",
+        "name" : "XCTMacroTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "XCTSharkUnitTests",
-        "name" : "XCTSharkUnitTests"
+        "identifier" : "XCTUnitTests",
+        "name" : "XCTUnitTests"
       }
     }
   ],

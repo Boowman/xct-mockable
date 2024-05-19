@@ -12,13 +12,7 @@ import XCTMockable
 @testable import XCTBaseTests
 
 final class XCTPropertiesTests: XCTBaseTests {
-    private let product = Product(
-        id: "x125",
-        title: "Title",
-        date: Date(timeIntervalSince1970: 1708387889),
-        price: 49.99
-    )
-    
+
     func test_primitive_assignment() throws {
         // Arrange
         given(propertiesMock.productDescription).willReturn("Some cool value")
@@ -39,6 +33,52 @@ final class XCTPropertiesTests: XCTBaseTests {
         
         // Assert
         XCTAssertEqual(product, result)
+    }
+    
+    func test_self_get_successful() throws {
+        // Arrange
+        given(propertiesMock.shared).willReturn(propertiesMock)
+        
+        // Act
+        let result = propertiesMock.shared
+        
+        // Assert
+        XCTAssertEqual(propertiesMock, result)
+    }
+    
+    func test_static_self_get_successful() throws {
+        // Arrange
+        given(PropertiesProtocolMock.instance).willReturn(propertiesMock)
+        
+        // Act
+        let result = PropertiesProtocolMock.instance
+        
+        // Assert
+        XCTAssertEqual(propertiesMock, result)
+    }
+    
+    func test_static_self_get_unsuccessful() throws {
+        // Arrange
+        given(PropertiesProtocolMock.instance).willReturn(PropertiesClass())
+        
+        // Act
+        let result = PropertiesProtocolMock.instance
+        
+        // Assert
+        XCTAssertNotEqual(propertiesMock, result)
+    }
+    
+    func test_get_self_failure() throws {
+        // Arrange
+        let compareTo: PropertiesProtocolMock = PropertiesClass()
+        
+        given(propertiesMock.shared).willReturn(compareTo)
+        
+        // Act
+        let result = propertiesMock.shared
+        
+        // Assert
+        XCTAssertNotEqual(propertiesMock, result)
     }
     
     func test_nil_assignment() throws {
@@ -65,4 +105,13 @@ final class XCTPropertiesTests: XCTBaseTests {
 //        // Assert
 //        XCTAssertTrue(result)
 //    }
+    
+    private let product = Product(
+        id: "x125",
+        title: "Title",
+        date: Date(timeIntervalSince1970: 1708387889),
+        price: 49.99
+    )
+    
+    final class PropertiesClass: PropertiesProtocolMock { }
 }

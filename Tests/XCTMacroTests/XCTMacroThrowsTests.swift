@@ -25,6 +25,8 @@ final class XCTMacroThrowsTests: XCTMacroBaseTests {
             }
 
             class ThrowsProtocolMock: ThrowsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -74,6 +76,8 @@ final class XCTMacroThrowsTests: XCTMacroBaseTests {
             }
 
             class ThrowsProtocolMock: ThrowsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -123,6 +127,8 @@ final class XCTMacroThrowsTests: XCTMacroBaseTests {
             }
 
             class ThrowsProtocolMock: ThrowsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -172,6 +178,8 @@ final class XCTMacroThrowsTests: XCTMacroBaseTests {
             }
 
             class ThrowsProtocolMock: ThrowsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -223,6 +231,8 @@ final class XCTMacroThrowsTests: XCTMacroBaseTests {
             }
 
             class ThrowsProtocolMock: ThrowsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
