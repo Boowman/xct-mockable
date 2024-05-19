@@ -36,8 +36,8 @@ extension VariableDeclSyntax {
     }
     
     ///
-    ///  - `static`
     ///  - `open`
+    ///  - `static
     ///  - `public`
     ///  - `private`
     ///  - `internal`

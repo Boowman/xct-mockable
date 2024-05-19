@@ -42,12 +42,14 @@ internal final class GetterMapper {
         let returnType = member.getReturnType
         
         let definition = "\(subscriptKeyword)(\(parametersList)): \(returnType)"
-        let effect = member.getEffects ?? ""
+        var declaration = getterKeyword
+        
+        if let effects = member.getEffects, !effects.isEmpty { declaration += " \(effects)" }
         
         return mapGetterBlock(
             definition: definition,
+            declaration: declaration,
             type: returnType,
-            effects: effect,
             optional: member.isOptional)
     }
     
@@ -59,19 +61,27 @@ internal final class GetterMapper {
               let type = member.getReturnType
         else { return "" }
         
-        let definition = "\(varKeyword) \(name): \(type)"
-        let effect = member.getEffects ?? ""
+        var definition = "\(varKeyword) \(name): \(type)"
+        var declaration = getterKeyword
+        
+        if !member.getModifiers().isEmpty {
+            definition = "\(member.getModifiers()) \(definition)"
+        }
+        if let effects = member.getEffects, !effects.isEmpty { declaration += " \(effects)" }
         
         return mapGetterBlock(
             definition: definition,
+            declaration: declaration,
             type: type,
-            effects: effect,
             optional: member.isReturningOptional)
     }
     
-    private func mapGetterBlock(definition: String, type: String, effects: String, optional: Bool) -> String {
-        let declaration = effects.isEmpty ? "\(getterKeyword)" : "\(getterKeyword) \(effects)"
-        
+    private func mapGetterBlock(
+        definition: String,
+        declaration: String,
+        type: String,
+        optional: Bool
+    ) -> String {        
         return """
         \(declaration) {
             return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "\(definition)",
@@ -88,7 +98,10 @@ internal final class GetterMapper {
         """
     }
     
-    private func getResultBlock(returnType: String, optional: Bool) -> String {
+    private func getResultBlock(
+        returnType: String,
+        optional: Bool
+    ) -> String {
         return """
         if let result = result {
                     if let result = result as? \(returnType.replacingOccurrences(of: "?", with: "")) {
@@ -98,7 +111,9 @@ internal final class GetterMapper {
         """
     }
     
-    private func getOptionalReturnBlock(_ isOptional: Bool) -> String {
+    private func getOptionalReturnBlock(
+        _ isOptional: Bool
+    ) -> String {
         return isOptional ? 
         """
         \n

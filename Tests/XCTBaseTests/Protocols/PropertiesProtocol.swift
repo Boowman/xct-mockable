@@ -9,11 +9,11 @@ import Foundation
 import XCTMockable
 
 @Mockable
-protocol PropertiesProtocol {
+protocol PropertiesProtocol: Equatable {
     static var description: String { get }
+    static var instance: Self { get }
     
-    var isAvailable: Bool { get async throws }
-    
+    var shared: Self { get }
     var product: Product { get set }
     var productTitle: String? { get set }
     var productDescription: String { get }

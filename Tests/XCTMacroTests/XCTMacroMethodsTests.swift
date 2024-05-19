@@ -25,6 +25,8 @@ final class XCTMacroMethodsTests: XCTMacroBaseTests {
             }
 
             class MethodsProtocolMock: MethodsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -74,6 +76,8 @@ final class XCTMacroMethodsTests: XCTMacroBaseTests {
             }
 
             class MethodsProtocolMock: MethodsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -123,6 +127,8 @@ final class XCTMacroMethodsTests: XCTMacroBaseTests {
             }
 
             class MethodsProtocolMock: MethodsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -174,6 +180,8 @@ final class XCTMacroMethodsTests: XCTMacroBaseTests {
             }
 
             class MethodsProtocolMock: MethodsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -223,9 +231,65 @@ final class XCTMacroMethodsTests: XCTMacroBaseTests {
             }
 
             class MethodsProtocolMock: MethodsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
+                func fetchData() -> XCTMockable.Mockable<XCTMockable.FunctionDeclaration, () -> String, String> {
+                return XCTMockable.Mockable<XCTMockable.FunctionDeclaration, () -> String, String>(context: context,
+                                                                                                                         invocation: XCTMockable.Invocation(key: "func fetchData() -> String",
+                                                                                                                                                             members: []),
+                                                                                                                         returnType: Swift.ObjectIdentifier((String).self))
+                }
+
+                func fetchData() -> String {
+                    return self.context.mocking.didInvoke(XCTMockable.Invocation(key: "func fetchData() -> String",
+                                                                                      members: [])) { invocation in
+
+                        let result = self.context.stubbing.implementation(for: invocation)
+
+                            if let result = result {
+                    if let result = result as? String {
+                        return result
+                    }
+                }
+
+                        fatalError("Failed to find a suitable result type.", file: #file, line: #line)
+                    }
+                }
+            }
+            """,
+            macros: mockableMacroTest
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+
+    func test_attributes() throws {
+        #if canImport(XCTMacros)
+        assertMacroExpansion(
+            """
+            @Mockable
+            protocol MethodsProtocol {
+                @available(*, deprecated, message: "Use a different method instead")
+                func fetchData() -> String
+            }
+            """,
+            expandedSource: """
+            protocol MethodsProtocol {
+                @available(*, deprecated, message: "Use a different method instead")
+                func fetchData() -> String
+            }
+
+            class MethodsProtocolMock: MethodsProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+
+                public static var context = XCTMockable.ContextContainer()
+                public var context = XCTMockable.ContextContainer()
+
+                @available(*, deprecated, message: "Use a different method instead")
                 func fetchData() -> XCTMockable.Mockable<XCTMockable.FunctionDeclaration, () -> String, String> {
                 return XCTMockable.Mockable<XCTMockable.FunctionDeclaration, () -> String, String>(context: context,
                                                                                                                          invocation: XCTMockable.Invocation(key: "func fetchData() -> String",
