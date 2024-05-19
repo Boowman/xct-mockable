@@ -25,6 +25,8 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
             }
 
             class SubscriptProtocolMock: SubscriptProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -72,6 +74,8 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
             }
 
             class SubscriptProtocolMock: SubscriptProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
 
@@ -117,6 +121,8 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
             }
 
             class SubscriptProtocolMock: SubscriptProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
             
@@ -164,6 +170,8 @@ final class XCTMacroSubscriptTests: XCTMacroBaseTests {
             }
 
             class PropertiesProtocolMock: PropertiesProtocol, XCTMockProtocol {
+                public var mockClassId = UUID()
+            
                 public static var context = XCTMockable.ContextContainer()
                 public var context = XCTMockable.ContextContainer()
             

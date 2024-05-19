@@ -63,7 +63,13 @@ internal final class FunctionMapper {
             parameters: member.signature.parameterClause.parameters
         )
         
+        var attributes = ""
+        if member.hasAttributes {
+            attributes += "\(member.getAttributes)"
+        }
+        
         return """
+        \(attributes)
         \(modifiers)\(funcKeyword) \(functionName)(\(parametersList))\(effectSpecifiers) -> \(createInvocationReturn(invocationType: invocationType, type: returnType)) {
             return XCTMockable.Mockable<XCTMockable.FunctionDeclaration, \(invocationType), \(returnType)>(context: context,
                                                                                                                      invocation: XCTMockable.Invocation(key: "\(modifiers)func \(functionName)(\(parametersList))\(effectSpecifiers) -> \(returnType)",

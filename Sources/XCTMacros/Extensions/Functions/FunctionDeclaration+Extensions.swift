@@ -24,6 +24,14 @@ extension FunctionDeclSyntax {
         return self.signature.returnClause?.type.trimmedDescription ?? "Void"
     }
     
+    var hasAttributes: Bool {
+        return !self.attributes.isEmpty
+    }
+    
+    var getAttributes: String {
+        return self.attributes.trimmedDescription
+    }
+    
     var isReturningOptional: Bool {
         return OptionalTypeSyntax(self.signature.returnClause?.type) != nil
     }

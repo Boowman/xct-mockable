@@ -19,10 +19,10 @@ internal final class VariableMapper {
     }
     
     func build() -> String {
-        return mapSubscriptFromNode()
+        return mapVariableFromNode()
     }
     
-    func mapSubscriptFromNode() -> String {
+    func mapVariableFromNode() -> String {
         guard let member = member else { return "" }
         guard let name = member.getName, let type = member.getReturnType else { return "" }
         

@@ -24,6 +24,7 @@ public class InvocationsRecorder: NSObject {
             XCTThrowException(Constants.exception)
         }
     }
+    
     public func startRecording(block: () -> Void) -> Self {
         Self.sharedQueue.sync {
             _ = XCTTryExceptionBlock {
