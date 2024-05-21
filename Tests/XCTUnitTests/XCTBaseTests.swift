@@ -16,5 +16,6 @@ internal class XCTBaseTests: XCTestCase {
     internal let methodsMock = MethodsProtocolMock()
     internal let subscriptMock = SubscriptProtocolMock()
     internal let propertiesMock = PropertiesProtocolMock()
+    internal let associatedTypeMock = AssociatedTypeMock()
     internal let asyncThrowsMock = AsyncThrowsProtocolMock()
 }
