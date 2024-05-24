@@ -63,7 +63,18 @@ Swift 5.9 or later
     )
 ```
 
-## Examples [Reason why we need it]
+## Essentials
+### Mocking
+### Stubbing
+
+```swift
+    
+```
+
+### Verification
+### Matching Arguments
+
+
 
 ## Support
 
