@@ -33,7 +33,7 @@ Swift 5.9 or later
 
 #### Swift Package Manager
 
-1. In Xcode, navigate to menu: File > Swift Packages > Add Package Dependency
+1. In Xcode, navigate to the menu: File > Swift Packages > Add Package Dependency
 2. Add `https://github.com/Boowman/xct-mockable.git`
 3. For the Dependency Rule, Select "Up to Next Major" with `1.0.0`. Click Add Package.
 4. Under `Package Product` look for XCTMockable and under `Target` select your test target.
@@ -342,7 +342,7 @@ XCTAssertTrue(isAvailable)
 ### Mocking
 To mock a protocol we simply have to provide the `@Mockable` macro to the protocol itself, everything will be taken care of in the background.
 The result will be a newly created class with the appended `Mock` keyword to the function name itself. Any supported type and method will be created within the class
-and given the appropriate context in order to be able to use it in the tests.
+and given the appropriate context to be able to use it in the tests.
 
 ```swift
 @Mockable
@@ -373,7 +373,7 @@ class XCTMockableMock: XCTMockable {
 We have the option to stub any type currently supported by Swift from `primitive types`, `custom objects` to `self`
 
 #### Initialisers
-Currently the `init` are being created as part of the protocol though they will are not usable at the moment.
+Currently the `init` is being created as part of the protocol though they will not be usable at the moment.
 
 #### Primitive properties AND objects
 
@@ -529,7 +529,7 @@ verify(propertiesMock.shared).wasCalled()
 verify(PropertiesProtocolMock.instance).wasCalled()
 ```
 
-#### Methods Regulard & Variadic
+#### Methods Regular & Variadic
 ```swift
 @Mockable
 protocol MethodsProtocol {
@@ -617,7 +617,6 @@ verify(try asyncMock.setAvailability(val: True)).wasCalled()
 ### Matching Arguments
 Currently, whenever we stub a method we are required to provide a value for each parameter by doing so we also are able to match that the correct method was called when we verify.
 
-```swift
 ```swift
 @Mockable
 protocol MethodProtocol {
