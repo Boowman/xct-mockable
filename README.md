@@ -16,6 +16,10 @@
     - [Package](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#adding-it-to-a-package)
 - [Package Support](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#support)
 - [Essentials](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#essentials)
+    - [Mocking](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#mocking)
+    - [Stubbing](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#stubbing)
+    - [Verification](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#verification)
+    - [Matching Arguments](https://github.com/Boowman/xct-mockable?tab=readme-ov-file#matching-arguments)
 
 ## Summary
 
